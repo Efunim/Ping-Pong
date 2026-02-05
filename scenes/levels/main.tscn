@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://bxi7j5jnyk5ks"]
+
+[ext_resource type="Script" uid="uid://dkgxi4kc4akul" path="res://scripts/main.gd" id="1_2vj2h"]
+[ext_resource type="PackedScene" uid="uid://063guml3dm7o" path="res://scenes/entities/player.tscn" id="1_72ix8"]
+[ext_resource type="PackedScene" uid="uid://bfiqg428mw38e" path="res://scenes/entities/enemy.tscn" id="3_y0acb"]
+[ext_resource type="PackedScene" uid="uid://bf2ommrewu17j" path="res://scenes/entities/ball.tscn" id="4_j4d2a"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_j4d2a"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_u81e1"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_b6bv0"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ubwgw"]
+
+[node name="Main" type="Node" unique_id=936922932]
+script = ExtResource("1_2vj2h")
+
+[node name="WorldBoundaries" type="StaticBody2D" parent="." unique_id=1679278053]
+
+[node name="LeftBoundary" type="CollisionShape2D" parent="WorldBoundaries" unique_id=199526318]
+position = Vector2(7.6293945e-06, 320)
+scale = Vector2(1.0010451, 4.799999)
+shape = SubResource("WorldBoundaryShape2D_j4d2a")
+debug_color = Color(0.94624406, 0, 0.23408085, 0.41960785)
+
+[node name="RightBoundary" type="CollisionShape2D" parent="WorldBoundaries" unique_id=504176136]
+position = Vector2(1152, 320)
+scale = Vector2(1, 4.680002)
+shape = SubResource("WorldBoundaryShape2D_u81e1")
+debug_color = Color(0.78354394, 0.0030748812, 0.35428748, 0.41960785)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldBoundaries" unique_id=2003277033]
+position = Vector2(576, 0)
+shape = SubResource("WorldBoundaryShape2D_b6bv0")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldBoundaries" unique_id=1757586169]
+position = Vector2(576, 640)
+shape = SubResource("WorldBoundaryShape2D_ubwgw")
+
+[node name="Player" parent="." unique_id=1064331733 instance=ExtResource("1_72ix8")]
+position = Vector2(80, 616)
+
+[node name="Enemy" parent="." unique_id=620884627 instance=ExtResource("3_y0acb")]
+position = Vector2(80, 24)
+
+[node name="Ball" parent="." unique_id=653229251 instance=ExtResource("4_j4d2a")]
+speed = 200.0
+max_speed = 700.0
+
+[node name="Timer" type="Timer" parent="." unique_id=1565887942]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

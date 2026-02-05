@@ -1,0 +1,261 @@
+[1mdiff --git a/project.godot b/project.godot[m
+[1mindex 9771868..f1b5119 100644[m
+[1m--- a/project.godot[m
+[1m+++ b/project.godot[m
+[36m@@ -8,11 +8,15 @@[m
+ [m
+ config_version=5[m
+ [m
+[32m+[m[32m[animation][m
+[32m+[m
+[32m+[m[32mcompatibility/default_parent_skeleton_in_mesh_instance_3d=true[m
+[32m+[m
+ [application][m
+ [m
+ config/name="1-Ping-Pong"[m
+ run/main_scene="uid://bxi7j5jnyk5ks"[m
+[31m-config/features=PackedStringArray("4.4", "Forward Plus")[m
+[32m+[m[32mconfig/features=PackedStringArray("4.6", "Forward Plus")[m
+ config/icon="res://icon.svg"[m
+ [m
+ [display][m
+[36m@@ -23,6 +27,11 @@[m [mwindow/stretch/mode="viewport"[m
+ [m
+ project/assembly_name="1-Ping-Pong"[m
+ [m
+[32m+[m[32m[editor][m
+[32m+[m
+[32m+[m[32mversion_control/plugin_name="GitPlugin"[m
+[32m+[m[32mversion_control/autoload_on_startup=true[m
+[32m+[m
+ [input][m
+ [m
+ move_left={[m
+[1mdiff --git a/scenes/entities/ball.tscn b/scenes/entities/ball.tscn[m
+[1mindex 99d1418..ee1ff69 100644[m
+[1m--- a/scenes/entities/ball.tscn[m
+[1m+++ b/scenes/entities/ball.tscn[m
+[36m@@ -1,21 +1,17 @@[m
+[31m-[gd_scene load_steps=5 format=3 uid="uid://ccgdpciai2ydi"][m
+[32m+[m[32m[gd_scene format=3 uid="uid://bf2ommrewu17j"][m
+ [m
+ [ext_resource type="Script" uid="uid://byru43j0drdpd" path="res://scripts/ball.gd" id="1_1pamd"][m
+ [ext_resource type="Texture2D" uid="uid://fb8xrsvdfygl" path="res://assets/ball.png" id="1_u0o5v"][m
+ [m
+[31m-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1pamd"][m
+[31m-bounce = 100.0[m
+[31m-[m
+[31m-[sub_resource type="CircleShape2D" id="CircleShape2D_1pamd"][m
+[32m+[m[32m[sub_resource type="CircleShape2D" id="CircleShape2D_u0o5v"][m
+ radius = 16.0[m
+ [m
+[31m-[node name="Ball" type="RigidBody2D"][m
+[31m-physics_material_override = SubResource("PhysicsMaterial_1pamd")[m
+[32m+[m[32m[node name="Ball" type="CharacterBody2D" unique_id=1640360730][m
+ script = ExtResource("1_1pamd")[m
+[31m-velocity = Vector2(0.295, 0.17)[m
+[32m+[m[32mspeed = 350[m
+ [m
+[31m-[node name="Sprite2D" type="Sprite2D" parent="."][m
+[32m+[m[32m[node name="Sprite2D" type="Sprite2D" parent="." unique_id=134134632][m
+ texture = ExtResource("1_u0o5v")[m
+ [m
+[31m-[node name="CollisionShape2D" type="CollisionShape2D" parent="."][m
+[31m-shape = SubResource("CircleShape2D_1pamd")[m
+[32m+[m[32m[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2146530068][m
+[32m+[m[32mshape = SubResource("CircleShape2D_u0o5v")[m
+[1mdiff --git a/scenes/entities/player.tscn b/scenes/entities/player.tscn[m
+[1mindex 0edf56c..e1da895 100644[m
+[1m--- a/scenes/entities/player.tscn[m
+[1m+++ b/scenes/entities/player.tscn[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-[gd_scene load_steps=4 format=3 uid="uid://063guml3dm7o"][m
+[32m+[m[32m[gd_scene format=3 uid="uid://063guml3dm7o"][m
+ [m
+ [ext_resource type="Script" uid="uid://c2fmi7paka10k" path="res://scripts/player.gd" id="1_08t41"][m
+ [ext_resource type="Texture2D" uid="uid://ne27fxf4ugci" path="res://assets/platform.png" id="1_ucweq"][m
+[36m@@ -6,11 +6,11 @@[m
+ [sub_resource type="RectangleShape2D" id="RectangleShape2D_08t41"][m
+ size = Vector2(128, 32)[m
+ [m
+[31m-[node name="Player" type="CharacterBody2D"][m
+[32m+[m[32m[node name="Player" type="CharacterBody2D" unique_id=1866062382][m
+ script = ExtResource("1_08t41")[m
+ [m
+[31m-[node name="Sprite2D" type="Sprite2D" parent="."][m
+[32m+[m[32m[node name="Sprite2D" type="Sprite2D" parent="." unique_id=364334654][m
+ texture = ExtResource("1_ucweq")[m
+ [m
+[31m-[node name="CollisionShape2D" type="CollisionShape2D" parent="."][m
+[32m+[m[32m[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=677625874][m
+ shape = SubResource("RectangleShape2D_08t41")[m
+[1mdiff --git a/scenes/levels/main.tscn b/scenes/levels/main.tscn[m
+[1mindex dd05199..7aac4fc 100644[m
+[1m--- a/scenes/levels/main.tscn[m
+[1m+++ b/scenes/levels/main.tscn[m
+[36m@@ -1,17 +1,56 @@[m
+[31m-[gd_scene load_steps=5 format=3 uid="uid://bxi7j5jnyk5ks"][m
+[32m+[m[32m[gd_scene format=3 uid="uid://bxi7j5jnyk5ks"][m
+ [m
+ [ext_resource type="Script" uid="uid://dkgxi4kc4akul" path="res://scripts/main.gd" id="1_2vj2h"][m
+ [ext_resource type="PackedScene" uid="uid://063guml3dm7o" path="res://scenes/entities/player.tscn" id="1_72ix8"][m
+ [ext_resource type="PackedScene" uid="uid://bfiqg428mw38e" path="res://scenes/entities/enemy.tscn" id="3_y0acb"][m
+[31m-[ext_resource type="PackedScene" uid="uid://ccgdpciai2ydi" path="res://scenes/entities/ball.tscn" id="4_j4d2a"][m
+[32m+[m[32m[ext_resource type="PackedScene" uid="uid://bf2ommrewu17j" path="res://scenes/entities/ball.tscn" id="4_j4d2a"][m
+ [m
+[31m-[node name="Main" type="Node"][m
+[32m+[m[32m[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_j4d2a"][m
+[32m+[m[32mnormal = Vector2(1, 0)[m
+[32m+[m
+[32m+[m[32m[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_u81e1"][m
+[32m+[m[32mnormal = Vector2(-1, 0)[m
+[32m+[m
+[32m+[m[32m[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_b6bv0"][m
+[32m+[m[32mnormal = Vector2(0, 1)[m
+[32m+[m
+[32m+[m[32m[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ubwgw"][m
+[32m+[m
+[32m+[m[32m[node name="Main" type="Node" unique_id=936922932][m
+ script = ExtResource("1_2vj2h")[m
+ [m
+[31m-[node name="Player" parent="." instance=ExtResource("1_72ix8")][m
+[32m+[m[32m[node name="WorldBoundaries" type="StaticBody2D" parent="." unique_id=1679278053][m
+[32m+[m
+[32m+[m[32m[node name="LeftBoundary" type="CollisionShape2D" parent="WorldBoundaries" unique_id=199526318][m
+[32m+[m[32mposition = Vector2(7.6293945e-06, 320)[m
+[32m+[m[32mscale = Vector2(1.0010451, 4.799999)[m
+[32m+[m[32mshape = SubResource("WorldBoundaryShape2D_j4d2a")[m
+[32m+[m[32mdebug_color = Color(0.94624406, 0, 0.23408085, 0.41960785)[m
+[32m+[m
+[32m+[m[32m[node name="RightBoundary" type="CollisionShape2D" parent="WorldBoundaries" unique_id=504176136][m
+[32m+[m[32mposition = Vector2(1152, 320)[m
+[32m+[m[32mscale = Vector2(1, 4.680002)[m
+[32m+[m[32mshape = SubResource("WorldBoundaryShape2D_u81e1")[m
+[32m+[m[32mdebug_color = Color(0.78354394, 0.0030748812, 0.35428748, 0.41960785)[m
+[32m+[m
+[32m+[m[32m[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldBoundaries" unique_id=2003277033][m
+[32m+[m[32mposition = Vector2(576, 0)[m
+[32m+[m[32mshape = SubResource("WorldBoundaryShape2D_b6bv0")[m
+[32m+[m
+[32m+[m[32m[node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldBoundaries" unique_id=1757586169][m
+[32m+[m[32mposition = Vector2(576, 640)[m
+[32m+[m[32mshape = SubResource("WorldBoundaryShape2D_ubwgw")[m
+[32m+[m
+[32m+[m[32m[node name="Player" parent="." unique_id=1064331733 instance=ExtResource("1_72ix8")][m
+ position = Vector2(80, 616)[m
+ [m
+[31m-[node name="Enemy" parent="." instance=ExtResource("3_y0acb")][m
+[32m+[m[32m[node name="Enemy" parent="." unique_id=620884627 instance=ExtResource("3_y0acb")][m
+ position = Vector2(80, 24)[m
+ [m
+[31m-[node name="Ball" parent="." instance=ExtResource("4_j4d2a")][m
+[32m+[m[32m[node name="Ball" parent="." unique_id=653229251 instance=ExtResource("4_j4d2a")][m
+[32m+[m
+[32m+[m[32m[node name="Timer" type="Timer" parent="." unique_id=1565887942][m
+[32m+[m[32mone_shot = true[m
+[32m+[m[32mautostart = true[m
+[32m+[m
+[32m+[m[32m[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"][m
+[1mdiff --git a/scripts/ball.gd b/scripts/ball.gd[m
+[1mindex a981581..c9a3bc9 100644[m
+[1m--- a/scripts/ball.gd[m
+[1m+++ b/scripts/ball.gd[m
+[36m@@ -1,10 +1,17 @@[m
+[31m-extends RigidBody2D[m
+[32m+[m[32mextends CharacterBody2D[m
+ [m
+[31m-@export var velocity: Vector2[m
+ @export var speed: int = 100[m
+ [m
+[32m+[m[32mvar direction_y: int = -1 # Shows which playe's side it is[m
+[32m+[m
+ func _physics_process(delta: float) -> void:[m
+[31m-	var collision_info = move_and_collide(velocity * delta * speed)[m
+[31m-	if collision_info:[m
+[31m-		velocity = velocity.bounce(collision_info.get_normal()) [m
+[31m-	pass[m
+[32m+[m	[32mvar collision = move_and_collide(velocity * speed * delta)[m
+[32m+[m[41m	[m
+[32m+[m	[32mif collision:[m
+[32m+[m		[32mvelocity = velocity.rotated(collision.get_angle((velocity * 10).normalized() - velocity))[m
+[32m+[m
+[32m+[m[32mfunc launch():[m
+[32m+[m	[32m# Randomise ball angle between around 215 and 330 deg[m
+[32m+[m	[32m# We need to change angle only on X axis, so I used Vector2.RIGHT[m
+[32m+[m	[32mvelocity = Vector2.RIGHT.rotated(randf_range(3.5, 5.5))[m
+[32m+[m	[32mvelocity.y *= direction_y[m
+[1mdiff --git a/scripts/main.gd b/scripts/main.gd[m
+[1mindex ea7f269..e296f17 100644[m
+[1m--- a/scripts/main.gd[m
+[1m+++ b/scripts/main.gd[m
+[36m@@ -2,16 +2,29 @@[m [mextends Node[m
+ [m
+ @export var y_border_perc: float = 0.025[m
+ [m
+[32m+[m[32mvar isPlaying[m
+[32m+[m
+ func _ready() -> void:[m
+[31m-	[m
+ 	# Init positions[m
+ 	var screen_size = DisplayServer.window_get_size()[m
+ 	var y_border = screen_size.y * y_border_perc[m
+ 	[m
+[31m-	$Player.position.x = screen_size.x / 2[m
+[31m-	$Player.position.y = screen_size.y - y_border[m
+[32m+[m	[32mvar center_x = screen_size.x / 2[m
+ 	[m
+[31m-	$Enemy.position.x = screen_size.x / 2[m
+[32m+[m	[32m$Player.position.x = center_x[m
+[32m+[m	[32m$Player.position.y = screen_size.y - y_border[m
+[32m+[m
+[32m+[m	[32m$Enemy.position.x = center_x[m
+ 	$Enemy.position.y = y_border[m
+[31m-	[m
+[32m+[m
+[32m+[m	[32m$Ball.position.x = center_x[m
+[32m+[m	[32m$Ball.position.y = screen_size.y / 2[m
+[32m+[m
+[32m+[m[32mfunc reset_ball():[m
+[32m+[m	[32mvar screen_size = DisplayServer.window_get_size()[m
+ 	$Ball.position = screen_size / 2[m
+[32m+[m	[32m$Ball.launch()[m
+[32m+[m
+[32m+[m
+[32m+[m[32mfunc _on_timer_timeout() -> void:[m
+[32m+[m	[32m$Ball.launch()[m
+[1mdiff --git a/scripts/player.gd b/scripts/player.gd[m
+[1mindex e3ced25..d54b07a 100644[m
+[1m--- a/scripts/player.gd[m
+[1m+++ b/scripts/player.gd[m
+[36m@@ -1,26 +1,18 @@[m
+ extends CharacterBody2D[m
+ [m
+ @export var speed: int = 400[m
+[31m-@export var border_percentage: float = 0.2[m
+ [m
+ var direction_left: String = "move_left"[m
+ var direction_right: String = "move_right"[m
+[31m-var border: int[m
+ [m
+ func _physics_process(delta: float) -> void:[m
+[31m-	[m
+ 	# Movement controls[m
+[31m-	var didMove: bool = false[m
+[32m+[m	[32mvar velocity = Vector2.ZERO[m
+[32m+[m[41m	[m
+ 	if Input.is_action_pressed(direction_left):[m
+[31m-		position.x -= speed * delta[m
+[31m-		didMove = true[m
+[32m+[m		[32mvelocity.x -= speed * delta[m
+ 		[m
+ 	elif Input.is_action_pressed(direction_right):[m
+[31m-		position.x += speed * delta[m
+[31m-		didMove = true[m
+[32m+[m		[32mvelocity.x += speed * delta[m
+ 	[m
+[31m-	# Clamping[m
+[31m-	if didMove: # otherwise platform changes position when resizing window[m
+[31m-		var screen_size = DisplayServer.window_get_size()[m
+[31m-		var border = screen_size.x * border_percentage[m
+[31m-		position.x = clamp(position.x, border, screen_size.x - border)[m
+[32m+[m	[32mmove_and_collide(velocity)[m

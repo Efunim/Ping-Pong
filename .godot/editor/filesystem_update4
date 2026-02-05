@@ -1,0 +1,5 @@
+res://scenes/levels/main.tscn
+res://scripts/main.gd
+res://scripts/ball.gd
+res://scenes/entities/ball.tscn
+res://scripts/player.gd

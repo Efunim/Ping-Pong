@@ -16,6 +16,9 @@ normal = Vector2(0, 1)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ubwgw"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j4d2a"]
+size = Vector2(1162, 29)
+
 [node name="Main" type="Node" unique_id=936922932]
 script = ExtResource("1_2vj2h")
 
@@ -42,11 +45,11 @@ position = Vector2(576, 640)
 shape = SubResource("WorldBoundaryShape2D_ubwgw")
 
 [node name="Player" parent="." unique_id=1064331733 instance=ExtResource("1_72ix8")]
-position = Vector2(80, 616)
+position = Vector2(80, 592)
 speed = 600
 
 [node name="Enemy" parent="." unique_id=620884627 node_paths=PackedStringArray("ball") instance=ExtResource("3_y0acb")]
-position = Vector2(80, 24)
+position = Vector2(80, 48)
 speed = 600
 ball = NodePath("../Ball")
 
@@ -57,4 +60,24 @@ max_speed = 800.0
 one_shot = true
 autostart = true
 
+[node name="ScoreBorder" type="Node" parent="." unique_id=1046218323]
+
+[node name="EnemyBorder" type="Area2D" parent="ScoreBorder" unique_id=2111969358]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreBorder/EnemyBorder" unique_id=358029793]
+position = Vector2(571, 3)
+shape = SubResource("RectangleShape2D_j4d2a")
+
+[node name="PlayerBorder" type="Area2D" parent="ScoreBorder" unique_id=1388033302]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ScoreBorder/PlayerBorder" unique_id=1204410373]
+position = Vector2(571, 638.5)
+shape = SubResource("RectangleShape2D_j4d2a")
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="ScoreBorder/EnemyBorder" to="." method="_on_enemy_border_body_entered"]
+[connection signal="body_entered" from="ScoreBorder/PlayerBorder" to="." method="_on_player_border_body_entered"]

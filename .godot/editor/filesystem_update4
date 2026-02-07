@@ -2,4 +2,9 @@ res://scenes/levels/main.tscn
 res://scripts/main.gd
 res://scripts/ball.gd
 res://scenes/entities/ball.tscn
-res://scripts/player.gd
+res://scripts/ball.gd
+res://scenes/levels/main.tscn
+res://scripts/enemy.gd
+res://scenes/entities/enemy.tscn
+res://scenes/entities/player.tscn
+res://scripts/main.gd

@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var speed: float = 200
+@export var speed: float = 400
 @export var max_speed: float = 400
 
 var direction_y: int = -1 # Shows which playe's side it is
@@ -10,8 +10,14 @@ func _physics_process(delta: float) -> void:
 	if collision:
 		velocity = velocity.bounce(collision.get_normal())
 		
-	if speed < max_speed:
-		speed += 0.5
+		var reflection = collision.get_remainder().bounce(collision.get_normal())
+		move_and_collide(reflection)
+		
+		if speed < max_speed:
+			speed += 10
+		
+func _draw() -> void:
+	draw_circle(Vector2.ZERO, 4, Color.RED)
 
 func launch():
 	# Randomise ball angle between around 215 and 330 deg

@@ -43,13 +43,15 @@ shape = SubResource("WorldBoundaryShape2D_ubwgw")
 
 [node name="Player" parent="." unique_id=1064331733 instance=ExtResource("1_72ix8")]
 position = Vector2(80, 616)
+speed = 600
 
-[node name="Enemy" parent="." unique_id=620884627 instance=ExtResource("3_y0acb")]
+[node name="Enemy" parent="." unique_id=620884627 node_paths=PackedStringArray("ball") instance=ExtResource("3_y0acb")]
 position = Vector2(80, 24)
+speed = 600
+ball = NodePath("../Ball")
 
 [node name="Ball" parent="." unique_id=653229251 instance=ExtResource("4_j4d2a")]
-speed = 200.0
-max_speed = 700.0
+max_speed = 800.0
 
 [node name="Timer" type="Timer" parent="." unique_id=1565887942]
 one_shot = true

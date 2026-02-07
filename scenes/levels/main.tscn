@@ -54,9 +54,6 @@ speed = 600
 ball = NodePath("../Ball")
 
 [node name="Ball" parent="." unique_id=653229251 instance=ExtResource("4_j4d2a")]
-position = Vector2(64, 88)
-collision_layer = 3
-collision_mask = 3
 max_speed = 800.0
 
 [node name="Timer" type="Timer" parent="." unique_id=1565887942]

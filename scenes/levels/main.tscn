@@ -17,12 +17,23 @@ normal = Vector2(0, 1)
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ubwgw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j4d2a"]
-size = Vector2(1162, 29)
+size = Vector2(1162, 28.25)
+
+[sub_resource type="SystemFont" id="SystemFont_j4d2a"]
+font_names = PackedStringArray("Fixedsys Excelsior 3.01")
+msdf_pixel_range = 20
+msdf_size = 50
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_j4d2a"]
+specular_color = Color(0.022612652, 0.0007613924, 0.075112365, 1)
 
 [node name="Main" type="Node" unique_id=936922932]
+process_mode = 3
 script = ExtResource("1_2vj2h")
 
 [node name="WorldBoundaries" type="StaticBody2D" parent="." unique_id=1679278053]
+process_mode = 1
+position = Vector2(0, 7)
 
 [node name="LeftBoundary" type="CollisionShape2D" parent="WorldBoundaries" unique_id=199526318]
 position = Vector2(7.6293945e-06, 320)
@@ -37,47 +48,112 @@ shape = SubResource("WorldBoundaryShape2D_u81e1")
 debug_color = Color(0.78354394, 0.0030748812, 0.35428748, 0.41960785)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldBoundaries" unique_id=2003277033]
-position = Vector2(576, 0)
+position = Vector2(576, -7)
 shape = SubResource("WorldBoundaryShape2D_b6bv0")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="WorldBoundaries" unique_id=1757586169]
-position = Vector2(576, 640)
+position = Vector2(576, 641)
 shape = SubResource("WorldBoundaryShape2D_ubwgw")
 
 [node name="Player" parent="." unique_id=1064331733 instance=ExtResource("1_72ix8")]
+process_mode = 1
 position = Vector2(80, 592)
 speed = 600
 
 [node name="Enemy" parent="." unique_id=620884627 node_paths=PackedStringArray("ball") instance=ExtResource("3_y0acb")]
+process_mode = 1
 position = Vector2(80, 48)
 speed = 600
 ball = NodePath("../Ball")
 
 [node name="Ball" parent="." unique_id=653229251 instance=ExtResource("4_j4d2a")]
+process_mode = 1
+position = Vector2(0, 341)
+collision_layer = 3
+collision_mask = 3
 max_speed = 800.0
 
-[node name="Timer" type="Timer" parent="." unique_id=1565887942]
+[node name="ResetBallTimeout" type="Timer" parent="." unique_id=1565887942]
+process_mode = 1
+wait_time = 3.0
 one_shot = true
-autostart = true
+
+[node name="PauseTimeout" type="Timer" parent="." unique_id=2088547365]
+wait_time = 3.0
+one_shot = true
 
 [node name="ScoreBorder" type="Node" parent="." unique_id=1046218323]
+process_mode = 1
 
 [node name="EnemyBorder" type="Area2D" parent="ScoreBorder" unique_id=2111969358]
+process_mode = 1
 collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreBorder/EnemyBorder" unique_id=358029793]
-position = Vector2(571, 3)
+position = Vector2(571, 2.25)
 shape = SubResource("RectangleShape2D_j4d2a")
 
 [node name="PlayerBorder" type="Area2D" parent="ScoreBorder" unique_id=1388033302]
+process_mode = 1
+position = Vector2(0, 8)
 collision_layer = 2
 collision_mask = 2
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="ScoreBorder/PlayerBorder" unique_id=1204410373]
-position = Vector2(571, 638.5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreBorder/PlayerBorder" unique_id=1204410373]
+position = Vector2(571, 638.125)
 shape = SubResource("RectangleShape2D_j4d2a")
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[node name="OverlayText" type="CanvasLayer" parent="." unique_id=1117576807]
+process_mode = 1
+
+[node name="Label" type="Label" parent="OverlayText" unique_id=1123112081]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -8.0
+offset_right = 16.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_fonts/font = SubResource("SystemFont_j4d2a")
+theme_override_font_sizes/font_size = 40
+text = "TEXT"
+metadata/_edit_use_anchors_ = true
+
+[node name="ShowOverlayTimeout" type="Timer" parent="." unique_id=463740051]
+wait_time = 2.0
+one_shot = true
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=10136727]
+process_mode = 1
+layer = -1
+
+[node name="PlayerScoreLabel" type="Label" parent="UI" unique_id=737620239]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="EnemyScoreLabel" type="Label" parent="UI" unique_id=655039406]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="TextureRect" type="TextureRect" parent="UI" unique_id=873427247]
+modulate = Color(0.024889119, 0.0034438109, 0.057935797, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_j4d2a")
+expand_mode = 2
+
+[connection signal="timeout" from="ResetBallTimeout" to="." method="_on_reset_ball_timeout_timeout"]
+[connection signal="timeout" from="PauseTimeout" to="." method="_on_pause_timeout_timeout"]
 [connection signal="body_entered" from="ScoreBorder/EnemyBorder" to="." method="_on_enemy_border_body_entered"]
 [connection signal="body_entered" from="ScoreBorder/PlayerBorder" to="." method="_on_player_border_body_entered"]
+[connection signal="timeout" from="ShowOverlayTimeout" to="." method="_on_show_overlay_timeout_timeout"]

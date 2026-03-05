@@ -21,6 +21,11 @@ size = Vector2(1162, 28.25)
 
 [sub_resource type="SystemFont" id="SystemFont_j4d2a"]
 font_names = PackedStringArray("Fixedsys Excelsior 3.01")
+msdf_pixel_range = 20
+msdf_size = 50
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_j4d2a"]
+specular_color = Color(0.022612652, 0.0007613924, 0.075112365, 1)
 
 [node name="Main" type="Node" unique_id=936922932]
 process_mode = 3
@@ -100,6 +105,7 @@ position = Vector2(571, 638.125)
 shape = SubResource("RectangleShape2D_j4d2a")
 
 [node name="OverlayText" type="CanvasLayer" parent="." unique_id=1117576807]
+process_mode = 1
 
 [node name="Label" type="Label" parent="OverlayText" unique_id=1123112081]
 anchors_preset = 8
@@ -116,11 +122,35 @@ grow_vertical = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
 theme_override_fonts/font = SubResource("SystemFont_j4d2a")
+theme_override_font_sizes/font_size = 40
 text = "TEXT"
 metadata/_edit_use_anchors_ = true
 
 [node name="ShowOverlayTimeout" type="Timer" parent="." unique_id=463740051]
 wait_time = 2.0
+one_shot = true
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=10136727]
+process_mode = 1
+layer = -1
+
+[node name="PlayerScoreLabel" type="Label" parent="UI" unique_id=737620239]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="EnemyScoreLabel" type="Label" parent="UI" unique_id=655039406]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="TextureRect" type="TextureRect" parent="UI" unique_id=873427247]
+modulate = Color(0.024889119, 0.0034438109, 0.057935797, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_j4d2a")
+expand_mode = 2
 
 [connection signal="timeout" from="ResetBallTimeout" to="." method="_on_reset_ball_timeout_timeout"]
 [connection signal="timeout" from="PauseTimeout" to="." method="_on_pause_timeout_timeout"]

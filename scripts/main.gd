@@ -5,6 +5,7 @@ extends Node
 
 @onready var launch_timer: Timer = $ResetBallTimeout
 @onready var pause_timer: Timer = $PauseTimeout
+
 @onready var overlay: Label = $OverlayText/Label
 
 enum states { NOT_STARTED, ON_HOLD, PLAYING, PAUSED}
@@ -47,8 +48,6 @@ func start_game() -> void:
 
 
 func _unhandled_key_input(_event: InputEvent) -> void:
-	print(current_state)
-	
 	match current_state:
 		states.NOT_STARTED:
 			start_game()
@@ -66,7 +65,6 @@ func _unhandled_key_input(_event: InputEvent) -> void:
 
 
 func pause_game() -> void:
-	print("pause")
 	current_state = states.PAUSED
 	get_tree().paused = true
 	show_overlay("PAUSED")

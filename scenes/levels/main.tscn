@@ -9,9 +9,11 @@
 
 [sub_resource type="SystemFont" id="SystemFont_b6bv0"]
 font_names = PackedStringArray("Fixedsys Excelsior 3.01")
-subpixel_positioning = 0
-msdf_pixel_range = 15
-msdf_size = 50
+
+[sub_resource type="FontVariation" id="FontVariation_ubwgw"]
+base_font = SubResource("SystemFont_b6bv0")
+spacing_top = -8
+spacing_bottom = -6
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_j4d2a"]
 normal = Vector2(1, 0)
@@ -27,6 +29,12 @@ normal = Vector2(0, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j4d2a"]
 size = Vector2(1162, 28.25)
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_b6bv0"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b6bv0"]
+texture = SubResource("CanvasTexture_b6bv0")
+modulate_color = Color(0, 0, 0, 0.8666667)
+
 [node name="Main" type="Node" unique_id=936922932]
 process_mode = 3
 script = ExtResource("1_2vj2h")
@@ -40,30 +48,34 @@ anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -44.0
-offset_bottom = 42.0
+offset_top = -37.5
+offset_bottom = 37.5
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 21
+alignment = 1
+
+[node name="EnemyScoreLabel" type="Label" parent="UI/VBoxContainer" unique_id=1816197507]
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_b6bv0")
+theme_override_colors/font_color = Color(0.46666667, 0.52156866, 0.6745098, 1)
+theme_override_fonts/font = SubResource("FontVariation_ubwgw")
+text = "0"
+horizontal_alignment = 1
 
 [node name="PlayerScoreLabel" type="Label" parent="UI/VBoxContainer" unique_id=737620239]
 z_index = 1
 layout_mode = 2
+size_flags_horizontal = 4
 theme = ExtResource("2_b6bv0")
 theme_override_colors/font_color = Color(0.46666667, 0.52156866, 0.6745098, 1)
-theme_override_fonts/font = SubResource("SystemFont_b6bv0")
+theme_override_fonts/font = SubResource("FontVariation_ubwgw")
 text = "0"
 horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="EnemyScoreLabel" type="Label" parent="UI/VBoxContainer" unique_id=655039406]
-z_index = 1
-layout_mode = 2
-theme = ExtResource("2_b6bv0")
-theme_override_colors/font_color = Color(0.46666667, 0.52156866, 0.6745098, 1)
-text = "0"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Background" type="TextureRect" parent="UI" unique_id=1265522665]
 anchors_preset = 15
@@ -151,26 +163,22 @@ shape = SubResource("RectangleShape2D_j4d2a")
 
 [node name="OverlayText" type="CanvasLayer" parent="." unique_id=1117576807]
 process_mode = 1
-visible = false
 
 [node name="Label" type="Label" parent="OverlayText" unique_id=1123112081]
+visible = false
 z_index = 10
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -16.0
-offset_top = -8.0
-offset_right = 16.0
-offset_bottom = 8.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
 theme = ExtResource("2_b6bv0")
+theme_override_styles/normal = SubResource("StyleBoxTexture_b6bv0")
 text = "TEXT"
-metadata/_edit_use_anchors_ = true
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ShowOverlayTimeout" type="Timer" parent="." unique_id=463740051]
 wait_time = 2.0

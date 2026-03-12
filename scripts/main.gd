@@ -22,19 +22,7 @@ var direction_y: int = -1
 
 func _ready() -> void:
 	# Init positions
-	var screen_size = DisplayServer.window_get_size()
-	var y_border = screen_size.y * y_border_perc
-	
-	var center_x = screen_size.x / 2
-	
-	$Player.position.x = center_x
-	$Player.position.y = screen_size.y - y_border
-
-	$Enemy.position.x = center_x
-	$Enemy.position.y = y_border
-
-	$Ball.position.x = center_x
-	$Ball.position.y = screen_size.y / 2
+	reset_game()
 	
 	current_state = states.NOT_STARTED
 	show_overlay("PRESS ANY BUTTON TO START")
@@ -46,7 +34,6 @@ func start_game() -> void:
 	$Ball.launch(direction_y)
 	current_state = states.PLAYING
 	get_tree().paused = false
-	print("START GAME")
 
 
 func _unhandled_key_input(_event: InputEvent) -> void:
@@ -94,6 +81,10 @@ func _on_enemy_border_body_entered(_body: Node2D) -> void:
 
 # direction should be either 1 (for direction to bottom) or -1 (upwards)
 func on_body_score(new_direction: int, entity: String) -> void:
+	if enemy_score == score_to_win or player_score == score_to_win:
+		end_game(entity)
+		return
+	
 	show_overlay("%s scored!" % entity)
 	$ShowOverlayTimeout.start()
 	current_state = states.ON_HOLD
@@ -101,6 +92,37 @@ func on_body_score(new_direction: int, entity: String) -> void:
 	direction_y = new_direction
 	reset_ball()
 
+func end_game(winner: String) -> void:
+	show_overlay("%s won!" %  winner)
+	$EndGameTimeout.start()
+	current_state = states.ON_HOLD
+	get_tree().paused = true
+
+func _on_end_game_timeout_timeout() -> void:
+	reset_game()
+
+	get_tree().paused = false
+	hide_overlay()
+	current_state = states.NOT_STARTED
+
+func reset_game() -> void:
+	var screen_size = DisplayServer.window_get_size()
+	var y_border = screen_size.y * y_border_perc
+	
+	var center_x = screen_size.x / 2
+	
+	$Player.position.x = center_x
+	$Player.position.y = screen_size.y - y_border
+
+	$Enemy.position.x = center_x
+	$Enemy.position.y = y_border
+
+	reset_ball()
+	
+	player_score = 0
+	enemy_score = 0
+	change_player_score_label()
+	change_enemy_score_label()
 
 func reset_ball():
 	var screen_size = DisplayServer.window_get_size()

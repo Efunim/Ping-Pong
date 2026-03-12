@@ -184,8 +184,13 @@ vertical_alignment = 1
 wait_time = 2.0
 one_shot = true
 
+[node name="EndGameTimeout" type="Timer" parent="." unique_id=2141452643]
+wait_time = 2.0
+one_shot = true
+
 [connection signal="timeout" from="ResetBallTimeout" to="." method="_on_reset_ball_timeout_timeout"]
 [connection signal="timeout" from="PauseTimeout" to="." method="_on_pause_timeout_timeout"]
 [connection signal="body_entered" from="ScoreBorder/EnemyBorder" to="." method="_on_enemy_border_body_entered"]
 [connection signal="body_entered" from="ScoreBorder/PlayerBorder" to="." method="_on_player_border_body_entered"]
 [connection signal="timeout" from="ShowOverlayTimeout" to="." method="_on_show_overlay_timeout_timeout"]
+[connection signal="timeout" from="EndGameTimeout" to="." method="_on_end_game_timeout_timeout"]

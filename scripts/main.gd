@@ -5,7 +5,10 @@ extends Node
 
 @onready var launch_timer: Timer = $ResetBallTimeout
 @onready var pause_timer: Timer = $PauseTimeout
+
 @onready var overlay: Label = $OverlayText/Label
+@onready var enemy_label: Label = $UI/VBoxContainer/EnemyScoreLabel
+@onready var player_label: Label = $UI/VBoxContainer/PlayerScoreLabel
 
 enum states { NOT_STARTED, ON_HOLD, PLAYING, PAUSED}
 var current_state
@@ -34,7 +37,7 @@ func _ready() -> void:
 	$Ball.position.y = screen_size.y / 2
 	
 	current_state = states.NOT_STARTED
-	overlay.text = "PRESS ANY BUTTON TO START"
+	show_overlay("PRESS ANY BUTTON TO START")
 	get_tree().paused = true
 
 
@@ -47,8 +50,6 @@ func start_game() -> void:
 
 
 func _unhandled_key_input(_event: InputEvent) -> void:
-	print(current_state)
-	
 	match current_state:
 		states.NOT_STARTED:
 			start_game()
@@ -66,7 +67,6 @@ func _unhandled_key_input(_event: InputEvent) -> void:
 
 
 func pause_game() -> void:
-	print("pause")
 	current_state = states.PAUSED
 	get_tree().paused = true
 	show_overlay("PAUSED")
@@ -85,11 +85,12 @@ func _on_pause_timeout_timeout() -> void:
 func _on_player_border_body_entered(_body: Node2D) -> void:
 	enemy_score += 1
 	on_body_score(-1, "Enemy")
-
+	change_enemy_score_label()
 
 func _on_enemy_border_body_entered(_body: Node2D) -> void:
 	player_score += 1
 	on_body_score(1, "Player")
+	change_player_score_label()	
 
 # direction should be either 1 (for direction to bottom) or -1 (upwards)
 func on_body_score(new_direction: int, entity: String) -> void:
@@ -112,6 +113,15 @@ func _on_reset_ball_timeout_timeout() -> void:
 	$Ball.launch(direction_y)
 	current_state = states.PLAYING
 
+## UI
+
+# Show scores
+
+func change_enemy_score_label():
+	enemy_label.text = str(enemy_score)
+
+func change_player_score_label():
+	player_label.text = str(player_score)
 
 # Methods for overlay text
 

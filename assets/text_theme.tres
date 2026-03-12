@@ -1,0 +1,11 @@
+[gd_resource type="Theme" format=3 uid="uid://k3s20e2bxehh"]
+
+[sub_resource type="SystemFont" id="SystemFont_gasxf"]
+font_names = PackedStringArray("Fixedsys Excelsior 3.01")
+subpixel_positioning = 0
+msdf_pixel_range = 20
+msdf_size = 50
+
+[resource]
+default_font = SubResource("SystemFont_gasxf")
+default_font_size = 40
